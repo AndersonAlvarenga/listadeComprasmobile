@@ -1,0 +1,57 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content style="padding: 5%;">
+  <ion-card *ngIf="progress == true">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <p style="text-align: center;">Carregando dados!</p>
+  </ion-card>
+  <ion-card *ngIf="progress == false">
+
+    <ion-card-title>
+      <p style="text-align: center;">Lista de compras!</p>
+    </ion-card-title>
+    <ion-card style="padding-left: 5%;">
+      <p>Data: {{formataData(lista.data)}}</p>
+      <p>Preço Total: R${{transformarReal(lista.valorTota)}}</p>
+    </ion-card>
+    <ion-card>
+      <ion-grid>
+        <ion-row>
+          <ion-col size=4>
+            Produto
+          </ion-col>
+          <ion-col size=2>
+            Quant.
+          </ion-col>
+          <ion-col size=3>
+            Preço
+          </ion-col>
+          <ion-col size=3>
+            Total
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of lista.item" style="border-bottom: solid darkgray 1px;">
+
+          <ion-col size=4>
+            {{item.nome}}
+          </ion-col>
+          <ion-col size=2>
+            {{item.quantidade}}
+          </ion-col>
+          <ion-col size=3>
+            R${{transformarReal(item.precoUni)}}
+          </ion-col>
+          <ion-col size=3>
+            R${{transformarReal(item.precoTotal)}}
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+
+
+  </ion-card>
+
+</ion-content>

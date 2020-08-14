@@ -1,0 +1,27 @@
+<ion-content>
+  <div class="divLogo">
+    <ion-img class="imagemLogo" src="assets/icon/Icone.png"></ion-img>
+    <ion-text class="textoLogo">Gestão de Gastos</ion-text>
+  </div>
+
+  <ion-card>
+    <form (ngSubmit)="logar()">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-textarea [(ngModel)]="userCad.email" name="email"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="userCad.senha"  name="senha"></ion-input>
+      </ion-item>
+      <div class="botao" style="width: 100%;">
+        <ion-button type="submit" color="danger">Entrar</ion-button>
+        <ion-button color="danger" (click)="cadastrar()">Cadastrar</ion-button>
+      </div>
+      <div class="esqueceSenha">
+        <ion-text (click)="voltarLogin()">Esqueceu a senha?</ion-text>
+      </div>
+     
+    </form>
+  </ion-card>
+</ion-content>

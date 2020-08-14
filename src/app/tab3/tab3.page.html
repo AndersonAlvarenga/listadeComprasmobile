@@ -1,17 +1,24 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngIf="progress==true">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <p style="text-align: center;">Carregando Dados!</p>
+  </ion-card>
+  <div style="padding-top: 20%">
+    <ion-card *ngIf="progress==false">
+      <ion-card-title style="text-align: center;">
+        {{user.nome}}
+      </ion-card-title>
+      <ion-card-content>
+        <P>{{user.email}}</P>
+        <div style="margin-right: auto; margin-left: auto;">
+          <ion-button color="danger" (click)="sair()">Sair</ion-button>
+        </div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
 </ion-content>

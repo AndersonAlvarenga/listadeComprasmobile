@@ -1,0 +1,44 @@
+<ion-content>
+  <ion-card>
+    <h1 style="text-align: center;">Criar Conta</h1>
+    <form (ngSubmit)="cadastrar()">
+      <ion-text class="text" *ngIf="verNome!=null">
+        {{verNome}}
+      </ion-text>
+      <ion-item>
+        <ion-label position="floating">Nome</ion-label>
+        <ion-input type="text" [(ngModel)]="user.nome" name="nome"></ion-input>
+      </ion-item>
+      <ion-text class="text" *ngIf="verEmail!=null">
+        {{verEmail}}
+      </ion-text>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
+      </ion-item>
+      <ion-text class="text" *ngIf="verSenha!=null">
+        {{verSenha}}
+      </ion-text>
+      <ion-item>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="user.senha" name="senha"></ion-input>
+      </ion-item>
+      <ion-text class="text" *ngIf="verRepSenha!=null">
+        {{verRepSenha}}
+      </ion-text>
+      <ion-item>
+        <ion-label position="floating">Repetir Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="user.repSenha" name="repSenha"></ion-input>
+      </ion-item>
+      <div class="botao"> 
+        <ion-button type="submit" block primary>Cadastrar</ion-button>
+      </div>
+
+      <div class="possuiConta">
+        <ion-text (click)="voltarLogin()">
+          Ja possui uma conta?
+        </ion-text>
+      </div>
+    </form>
+  </ion-card>
+</ion-content>

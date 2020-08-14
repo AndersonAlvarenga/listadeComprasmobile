@@ -1,17 +1,163 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-card>
+  <ion-row size=12 style="text-align: center;">
+    <ion-col size="4.5" style="margin: auto;">
+      Lista de Compras
+    </ion-col>
+    <ion-col class="botao" size="3" style="margin: auto;">
+      <ion-toggle [(ngModel)]="alternancia"></ion-toggle>
+    </ion-col>
+    <ion-col size="4.5" style="margin: auto;">
+      Lista de Gastos
+    </ion-col>
+  </ion-row>
+</ion-card>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content *ngIf="alternancia == true">
+  <ion-footer-bar>
+    <form padding #formpost="ngForm" class="card">
+      <ion-card class="formLogin">
+        <ion-item>
+          <ion-label>Gasto:</ion-label>
+          <ion-input [(ngModel)]="item.nome" type="text" name="nome"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Tipo de Gasto:</ion-label>
+          <ion-select placeholder="Select One" [(ngModel)]="item.tipo" name="tipo">
+            <ion-select-option value="Alimentação">Alimentação</ion-select-option>
+            <ion-select-option value="Carro">Carro</ion-select-option>
+            <ion-select-option value="Contas">Contas</ion-select-option>
+            <ion-select-option value="Faculdade">Faculdade</ion-select-option>
+            <ion-select-option value="Lazer">Lazer</ion-select-option>
+            <ion-select-option value="Outros">Outros</ion-select-option>
+            <ion-select-option value="Roupas">Roupas</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Quantidade:</ion-label>
+          <ion-input [(ngModel)]="item.quantidade" type="text" name="quantidade"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Preço:</ion-label>
+          <ion-input [(ngModel)]="item.precoUni" type="text" name="precoUni"></ion-input>
+        </ion-item>
+        <ion-section class="button" style="margin-right: auto; margin-left: auto;">
+          <ion-button color="danger" (click)="adicionar()">{{botaoAddLista}}</ion-button>
+          <ion-button color="light" (click)="limpar()">Limpar</ion-button>
+        </ion-section>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+      </ion-card>
+    </form>
+  </ion-footer-bar>
+
+
+  <ion-card>
+    <div class="progressBar" *ngIf="progress==true">
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
+      <div style="text-align: center;">Verificando lista de compra pendente!</div>
+    </div>
+    <div *ngIf="progress==false">
+      <!--Exibir a lista de itens-->
+      <ion-grid>
+        <ion-row class="ion-align-items-center" *ngFor="let gasto of user.gastosMensais[posicaoGasto].listaItens"
+          (click)="subirMenu(gasto)">
+
+          <ion-col size="1.5">
+            <ion-icon name="list-circle-outline" style="font-size: 210%;"></ion-icon>
+          </ion-col>
+          <ion-col size="3.2">
+            {{retornaData(gasto.data)}}
+          </ion-col>
+          <ion-col size="4.5">
+            {{gasto.nome}}
+          </ion-col>
+          <ion-col size="2.8">
+            R${{transformarReal(gasto.precoTotal)}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-card>
+</ion-content>
+<ion-content *ngIf="alternancia==false">
+  <!--Copiar o formulario da page lista de compras-->
+  <div class="cabecalho">
+    ADICIONE ITENS A SUA LISTA DE COMPRAS
+  </div>
+  <ion-footer-bar>
+    <form padding #formpost="ngForm" class="card">
+      <ion-card class="formLogin">
+        <ion-item>
+          <ion-label>Gasto:</ion-label>
+          <ion-input [(ngModel)]="itemLista.nome" type="text" name="nome"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Quantidade:</ion-label>
+          <ion-input [(ngModel)]="itemLista.quantidade" type="text" name="quantidade"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Preco:</ion-label>
+          <ion-input [(ngModel)]="itemLista.precoUni" type="text" name="precoUni"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Setor:</ion-label>
+          <ion-select placeholder="Select One" [(ngModel)]="itemLista.tipo" name="tipo">
+            <ion-select-option value="Açougue">Açougue</ion-select-option>
+            <ion-select-option value="Alimento">Alimento</ion-select-option>
+            <ion-select-option value="Bazar">Bazar</ion-select-option>
+            <ion-select-option value="HortiFruti">HortiFruti</ion-select-option>
+            <ion-select-option value="Limpeza">Limpeza</ion-select-option>
+            <ion-select-option value="Perfumaria">Perfumaria</ion-select-option>
+            <ion-select-option value="Outros">Outros</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-section class="button" style="margin-right: auto; margin-left: auto;">
+          <ion-button color="danger" (click)="adicionarCompras()">{{valorBotao}}</ion-button>
+          <ion-button color="light" (click)="limparCompras()">Limpar</ion-button>
+        </ion-section>
+      </ion-card>
+    </form>
+  </ion-footer-bar>
+
+
+  <ion-footer-bar>
+    <ion-card class="lista">
+      <div *ngIf="listaCarregada==false">
+        <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        <div style="text-align: center;">Carregando Lista de Compras</div>
+      </div>
+      <div *ngIf="listaCarregada==true">
+        <ion-card-title *ngIf="user.gastosMensais[posicaoGasto].listaCompras[posicaoListaCompras].status == 'Pendente'&&
+            user.gastosMensais[posicaoGasto].listaCompras[posicaoListaCompras].item!=null">
+          <div style="text-align: center;">
+            <p>Lista de Compras!</p>
+            R${{valorLista}}
+          </div>
+          <ion-card style="width: 100%;" *ngFor="let lista of user.gastosMensais[posicaoGasto].listaCompras">
+            <div *ngIf="lista.status == 'Pendente'" style="width: 100%;">
+              <ion-row class="ion-align-items-center" *ngFor="let items of lista.item" style="font-size: 120%;"
+                (click)="subirMenuCompras(items.nome)" size="12">
+
+                <ion-col size="1.6">
+                  <ion-icon name="list-circle-outline" style="font-size: 180%;"></ion-icon>
+                </ion-col>
+                <ion-col size="4">
+                  {{items.nome}}
+                </ion-col>
+                <ion-col style="text-align: center;" size="3.2">
+                  {{items.quantidade}}
+                </ion-col>
+                <ion-col style="text-align: center;" size="3.2">
+                  R${{transformarReal(items.precoUni)}}
+                </ion-col>
+
+              </ion-row>
+            </div>
+          </ion-card>
+          <ion-button expand="block" style="width: 100%;"
+            (click)="finalizarListaCompras(user.gastosMensais[posicaoGasto].listaCompras[posicaoListaCompras])">
+            Finalizar Lista de Compras</ion-button>
+        </ion-card-title>
+      </div>
+    </ion-card>
+  </ion-footer-bar>
 </ion-content>

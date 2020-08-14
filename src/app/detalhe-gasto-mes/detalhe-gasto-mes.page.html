@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-card style="text-align: center; font-size: 130%;">Lançamentos {{mes}}/{{ano}}</ion-card>
+</ion-header>
+<ion-content>
+  <div *ngIf="progress==true" style="text-align: center;">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    Carregando dados!
+  </div>
+
+  <ion-card *ngIf="progress==false">
+    <ion-card-subtitle class="percentual" *ngFor="let gasto of percentual">
+      <div style="padding: 2%;">
+        {{gasto.gasto}}: R${{transformarReal(gasto.valor)}} {{transformarReal(gasto.porcentagem)}}%
+        <ion-progress-bar value="{{gasto.percentual}}"></ion-progress-bar>
+      </div>
+    </ion-card-subtitle>
+
+  </ion-card>
+  <ion-card>
+    <ion-grid *ngIf="progress == false" style="margin: auto;">
+      <ion-item>
+        <ion-row size=12 style="margin: auto">
+          <ion-col size="5">
+            Lista de Compras
+          </ion-col>
+          <ion-col class="botao" size="2">
+            <ion-toggle [(ngModel)]="alternancia"></ion-toggle>
+          </ion-col>
+          <ion-col size="5">
+            Lista de Gastos
+          </ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="alternancia == true">
+        <!--lista lista de gastos-->
+        <div *ngIf="user.gastosMensais[posicaoGasto] != null">
+          <div *ngIf="user.gastosMensais[posicaoGasto].listaItens[posicaoLista] != null">
+            <ion-card *ngFor="let gasto of user.gastosMensais[posicaoGasto].listaItens"
+              style="font-size: 120%;">
+              <ion-row size="12" (click)="subirMenu(gasto.nome,gasto.data)">
+                <ion-col size="1">
+                  <ion-icon name="list-circle-outline" style="font-size: 200%;"></ion-icon>
+                </ion-col>
+                <ion-col size="4">
+                  {{gasto.nome}}
+                </ion-col>
+                <ion-col size="3">
+                </ion-col>
+                <ion-col size="4">
+                  R${{transformarReal(gasto.precoTotal)}}
+                </ion-col>
+              </ion-row>
+
+            </ion-card>
+          </div>
+        </div>
+        <div
+          *ngIf="user.gastosMensais[posicaoGasto] == null||user.gastosMensais[posicaoGasto].listaItens[posicaoLista] == null"
+          style="text-align: center;">
+          Você não tem lançamentos neste mês!
+        </div>
+      </div>
+      <div *ngIf="alternancia == false">
+        <!--Lista de compras-->
+        <div *ngIf="user.gastosMensais[posicaoGasto] != null">
+          <div *ngIf="user.gastosMensais[posicaoGasto].listaCompras[posicaoListaCompra]!=null">
+            <ion-card *ngFor="let lista of user.gastosMensais[posicaoGasto].listaCompras"
+              style="font-size: 120%;">
+
+              <ion-row size="12" (click)="subirMenu('',lista.data)">
+                <ion-col size="1">
+                  <ion-icon name="list-circle-outline" style="font-size: 200%;"></ion-icon>
+                </ion-col>
+                <ion-col size="6">
+                  {{formataData(lista.data)}}
+                </ion-col>
+                <ion-col size="1">
+                </ion-col>
+                <ion-col size="4">
+                  R${{transformarReal(lista.valorTota)}}
+                </ion-col>
+              </ion-row>
+
+            </ion-card>
+          </div>
+        </div>
+      </div>
+    </ion-grid>
+  </ion-card>
+
+
+</ion-content>

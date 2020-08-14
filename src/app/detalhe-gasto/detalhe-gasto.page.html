@@ -1,0 +1,23 @@
+<ion-content>
+  <div>
+    <ion-card *ngIf="progressBar==true">
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
+      <div style="text-align: center;">Carregando dados!</div>
+    </ion-card>
+
+    <ion-card *ngIf="progressBar==false" style="margin: auto; padding: 10%;">
+      <ion-card>
+        <ion-card-title style="text-align: center;">
+          {{itemRota.nome}}
+        </ion-card-title>
+      </ion-card>
+
+      <ion-card style="padding: 5%; font-size: 110%;">
+        <p>Data: {{formatarData(itemRota.data)}}</p>
+        <p>Quantidade: {{itemRota.quantidade}}</p>
+        <p>Preço Unidade: R${{formataReal(itemRota.precoUni)}}</p>
+        <p>Preço Total: R${{formataReal(itemRota.precoTotal)}}</p>
+      </ion-card>
+    </ion-card>
+  </div>
+</ion-content>
