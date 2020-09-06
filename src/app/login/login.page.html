@@ -8,12 +8,17 @@
     <form (ngSubmit)="logar()">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-textarea [(ngModel)]="userCad.email" name="email"></ion-textarea>
+        <ion-input [(ngModel)]="userCad.email" name="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Senha</ion-label>
-        <ion-input type="password" [(ngModel)]="userCad.senha"  name="senha"></ion-input>
+        <ion-input type="password" [(ngModel)]="userCad.senha" name="senha"></ion-input>
       </ion-item>
+      <div style="text-align: center;">
+        <ion-text style="color: red">{{mensagem}}</ion-text>
+
+      </div>
+
       <div class="botao" style="width: 100%;">
         <ion-button type="submit" color="danger">Entrar</ion-button>
         <ion-button color="danger" (click)="cadastrar()">Cadastrar</ion-button>
@@ -21,7 +26,7 @@
       <div class="esqueceSenha">
         <ion-text (click)="voltarLogin()">Esqueceu a senha?</ion-text>
       </div>
-     
+
     </form>
   </ion-card>
 </ion-content>

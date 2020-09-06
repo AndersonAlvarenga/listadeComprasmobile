@@ -15,6 +15,7 @@ export class LoginPage implements OnInit {
   user: User
   imagemLogo = "assets/icone.png";
   id: string;
+  mensagem: string;
   //user: User;
   constructor(
     private router: Router,
@@ -28,14 +29,36 @@ export class LoginPage implements OnInit {
     this.router.navigate(['cadastro']);
   }
   logar() {
-    this.fireAuth.signInWithEmailAndPassword(this.userCad.email, this.userCad.senha)
-      .then(async resp => {
-        let aux: string[] = await this.loginService.logar(this.userCad);
-        this.pegarId(aux);
-      })
-      .catch(error => {
-        console.log(error.message)
-      })
+    let cont = 0
+    setInterval(time => {
+      if (cont == 5) {
+        this.mensagem = "Falha na conexão, verifique!"
+        this.router.navigate([""]);
+      }
+      cont += 1;
+    }, 1000)
+    console.log(this.userCad.email)
+    if (navigator.onLine == true) {
+      if (this.userCad.email != null && this.userCad.senha != null) {
+        this.fireAuth.signInWithEmailAndPassword(this.userCad.email, this.userCad.senha)
+          .then(async resp => {
+            let aux: string[] = await this.loginService.logar(this.userCad);
+            this.pegarId(aux);
+            cont =10
+          })
+          .catch(error => {
+            console.log(error.message)
+            this.mensagem = "Email ou senha inválidos!"
+          })
+      } else {
+        //verificar qual esta vazio e printar na tela
+        this.mensagem = "Os campos email e senha devem ser preenchidos!"
+      }
+
+    } else {
+      this.mensagem = "Falha na conexão com a internet!"
+    }
+
   }
   pegarId(lista) {
     lista.forEach(async id => {
